@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
     FFmpegBasic::urlProtocolInfo();
     FFmpegBasic::avFormatInfo();
     FFmpegBasic::avCoderInfo();
+    FFmpegBasic::avFilterInfo();
+    FFmpegBasic::configurationInfo();
 
     return a.exec();
 }

@@ -9,6 +9,7 @@ extern "C"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavfilter/avfilter.h"
+#include "libavdevice/avdevice.h"
 };
 #endif
 
@@ -121,4 +122,33 @@ FFmpegBasic::avCoderInfo()
     }
 
     return codeMap;
+}
+
+/*
+ * @func   FFmpegBasic::avFilterInfo 
+ * @brief  FFmpeg类库支持的滤镜
+ * @return std::string  
+ */ 
+std::string FFmpegBasic::avFilterInfo()
+{
+    string info;
+    void *opaque = NULL;
+    const AVFilter *filter;
+
+    while ((filter = av_filter_iterate(&opaque)) != NULL)
+    {
+        info += string(filter->name) + ";";
+    }
+
+    return info;
+}
+
+/*
+ * @func   FFmpegBasic::configurationInfo 
+ * @brief  FFmpeg类库的配置信息
+ * @return std::string  
+ */ 
+std::string FFmpegBasic::configurationInfo()
+{
+    return string(avdevice_configuration());
 }

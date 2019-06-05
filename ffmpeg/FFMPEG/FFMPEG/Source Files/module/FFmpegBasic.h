@@ -24,4 +24,10 @@ public:
 
     //* AVCodec:   FFmpeg类库支持的编解码器
     static map<string, vector<pair<string, string>>> avCoderInfo();
+
+    //* AVFilter:  FFmpeg类库支持的滤镜
+    static string avFilterInfo();
+
+    //* Configure: FFmpeg类库的配置信息
+    static string configurationInfo();
 };
