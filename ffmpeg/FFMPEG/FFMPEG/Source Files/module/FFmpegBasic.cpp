@@ -12,8 +12,6 @@ extern "C"
 };
 #endif
 
-struct URLProtocol;
-
 /*
  * @func   FFmpegBasic::urlProtocolInfo
  * @brief  FFmpeg类库支持的协议
@@ -22,32 +20,27 @@ struct URLProtocol;
 std::map<std::string, std::string> FFmpegBasic::urlProtocolInfo()
 {
     map<string, string> protocolMap{};
-    char *info = new char[40000];
-    memset(info, 0, 40000);
+    string info{};
 
-    struct URLProtocol *pup = nullptr;
-    struct URLProtocol **pTemp = &pup;
-
+    void *pup = nullptr;
     // input
-    avio_enum_protocols((void**)pTemp, 0);
-    while ((*pTemp) != NULL) 
+    avio_enum_protocols(&pup, 0);
+    while (pup != nullptr)
     {
-        sprintf(info, "%s%s;", info, avio_enum_protocols((void **)pTemp, 0));//分号;间隔开
+        const char *t = avio_enum_protocols(&pup, 0);
+        info += string(t == nullptr ? "" : t) + string(";");
     }
-    protocolMap["input"] = string(info);
+    protocolMap["input"] = info;
 
     // output
-    memset(info, 0, 40000);
-    avio_enum_protocols((void**)pTemp, 1);
-    while ((*pTemp) != NULL) 
+    info.clear();
+    avio_enum_protocols(&pup, 1);
+    while (pup != nullptr)
     {
-        sprintf(info, "%s%s;", info, avio_enum_protocols((void **)pTemp, 1));//分号;间隔开
+        const char *t = avio_enum_protocols(&pup, 0);
+        info += string(t == nullptr ? "" : t) + string(";");
     }
-
-    protocolMap["output"] = string(info);
-
-    // 内存释放
-    delete[]info; info = nullptr;
+    protocolMap["output"] = info;
 
     return move(protocolMap);
 }
@@ -60,30 +53,72 @@ std::map<std::string, std::string> FFmpegBasic::urlProtocolInfo()
 std::map<std::string, std::string> FFmpegBasic::avFormatInfo()
 {
     std::map<std::string, std::string> avFormatMap{};
-    char *info = new char[40000];
-    memset(info, 0, 40000);
+    string info{};
+    void *opaque = nullptr;
 
-    AVInputFormat *ifTemp = av_iformat_next(NULL);
-    AVOutputFormat *ofTemp = av_oformat_next(NULL);
-    //Input
-    while (ifTemp != NULL) 
+    const AVInputFormat *ifTemp{ nullptr };
+    const AVOutputFormat *ofTemp{ nullptr };
+
+    //input
+    while ((ifTemp = av_demuxer_iterate(&opaque)) != nullptr)
     {
-        sprintf(info, "%s%s;", info, ifTemp->name);
-        ifTemp = ifTemp->next;
+        info += string(ifTemp->name) + ";";
     }
-    avFormatMap["input"] = string(info);
+    avFormatMap["input"] = info;
 
-    //Output
-    memset(info, 0, 40000);
-    while (ofTemp != NULL) 
+    // output
+    info.clear();
+    opaque = nullptr;
+    while ((ofTemp = av_muxer_iterate(&opaque)) != nullptr)
     {
-        sprintf(info, "%s%s;", info, ofTemp->name);
-        ofTemp = ofTemp->next;
+        info += string(ofTemp->name) + ";";
     }
     avFormatMap["output"] = string(info);
 
-    // 内存释放
-    delete[]info; info = nullptr;
-
     return move(avFormatMap);
+}
+
+
+/*
+ * @func   FFmpegBasic::avCoderInfo 
+ * @brief  FFmpeg类库支持的编解码器
+ * @return std::map<std::string, std::vector<std::pair<std::string, std::string>>>  
+ */ 
+std::map<std::string, std::vector<std::pair<std::string, std::string>>> 
+FFmpegBasic::avCoderInfo()
+{
+    std::map<std::string, std::vector<std::pair<std::string, std::string>>> codeMap{};
+    string info;
+    void *opaque = nullptr;
+    const AVCodec *coder = nullptr;
+
+    while ((coder = av_codec_iterate(&opaque)) != nullptr)
+    {
+        string name = coder->name;
+        string codeType;
+        string type;
+        switch (coder->type)
+        {
+        case AVMEDIA_TYPE_VIDEO:
+            codeType = "video";
+            break;
+        case AVMEDIA_TYPE_AUDIO:
+            codeType = "audio";
+            break;
+        default:
+            codeType = "other";
+            break;
+        }
+
+        if (coder->decode != nullptr)
+        {
+            codeMap["decode"].emplace_back(std::pair<string, string>(codeType, name));
+        }
+        else
+        {
+            codeMap["encode"].emplace_back(std::pair<string, string>(codeType, name));
+        }
+    }
+
+    return codeMap;
 }

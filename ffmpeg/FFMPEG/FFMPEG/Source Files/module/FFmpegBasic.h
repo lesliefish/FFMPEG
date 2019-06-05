@@ -7,6 +7,8 @@
 #pragma once
 #include <string>
 #include <map>
+#include <vector>
+
 using namespace std;
 
 class FFmpegBasic
@@ -20,4 +22,6 @@ public:
     //* AVFormat:  FFmpeg类库支持的封装格式
     static map<string, string> avFormatInfo();
 
+    //* AVCodec:   FFmpeg类库支持的编解码器
+    static map<string, vector<pair<string, string>>> avCoderInfo();
 };

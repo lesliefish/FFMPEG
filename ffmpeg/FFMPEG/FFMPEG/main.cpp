@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 
     FFmpegBasic::urlProtocolInfo();
     FFmpegBasic::avFormatInfo();
-
+    FFmpegBasic::avCoderInfo();
 
     return a.exec();
 }
