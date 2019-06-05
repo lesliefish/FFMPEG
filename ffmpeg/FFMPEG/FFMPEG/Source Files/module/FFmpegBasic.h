@@ -17,4 +17,7 @@ public:
     //* Protocol:  FFmpeg类库支持的协议
     static map<string, string> urlProtocolInfo();
 
+    //* AVFormat:  FFmpeg类库支持的封装格式
+    static map<string, string> avFormatInfo();
+
 };
