@@ -17,30 +17,35 @@ struct URLProtocol;
 /*
  * @func   FFmpegBasic::urlProtocolInfo 
  * @brief  FFmpeg类库支持的协议
- * @param  [in]  const int type  0:input,1:output
- * @return string  
+ * @return std::map<std::string, std::string>  
  */ 
-string FFmpegBasic::urlProtocolInfo(const int type)
+std::map<std::string, std::string> FFmpegBasic::urlProtocolInfo()
 {
-    if (type != 0 && type != 1)
-    {
-        return string();
-    }
-
+    map<string, string> protocolMap{};
     char *info = (char *)malloc(40000);
     memset(info, 0, 40000);
 
     struct URLProtocol *pup = nullptr;
     struct URLProtocol **pTemp = &pup;
 
-    avio_enum_protocols((void**)pTemp, type);
+    // input
+    avio_enum_protocols((void**)pTemp, 0);
     while ((*pTemp) != NULL) {
-        sprintf(info, "%s%s;", info, avio_enum_protocols((void **)pTemp, type));//分号;间隔开
+        sprintf(info, "%s%s;", info, avio_enum_protocols((void **)pTemp, 0));//分号;间隔开
     }
-    string str(info);
+    protocolMap["input"] = string(info);
+
+    // output
+    memset(info, 0, 40000);
+    avio_enum_protocols((void**)pTemp, 1);
+    while ((*pTemp) != NULL) {
+        sprintf(info, "%s%s;", info, avio_enum_protocols((void **)pTemp, 1));//分号;间隔开
+    }
+
+    protocolMap["output"] = string(info);
+
+    // 内存释放
     free(info); info = nullptr;
 
-    std::cout << str << std::endl;
-
-    return move(str);
+    return move(protocolMap);
 }

@@ -6,8 +6,8 @@
  */
 #pragma once
 #include <string>
-
-using std::string;
+#include <map>
+using namespace std;
 
 class FFmpegBasic
 {
@@ -15,6 +15,6 @@ class FFmpegBasic
 public:
 
     //* Protocol:  FFmpeg类库支持的协议
-    static string urlProtocolInfo(const int type);
+    static map<string, string> urlProtocolInfo();
 
 };
