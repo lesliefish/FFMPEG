@@ -1,10 +1,12 @@
-#include "MainWindow.h"
 #include <QtWidgets/QApplication>
+#include "module/FFmpegBasic.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+
+    FFmpegBasic::urlProtocolInfo(0);
+    FFmpegBasic::urlProtocolInfo(1);
+
     return a.exec();
 }

@@ -28,12 +28,21 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\module">
+      <UniqueIdentifier>{f696d03d-237c-46e3-9d70-947197928caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui">
+      <UniqueIdentifier>{a8fea8c8-baec-45d9-b990-144a93d9407f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source Files\MainWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source Files\ui\MainWindow.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\module\FFmpegBasic.cpp">
+      <Filter>Source Files\module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -41,13 +50,18 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Source Files\MainWindow.h">
-      <Filter>Source Files</Filter>
+    <QtMoc Include="Source Files\ui\MainWindow.h">
+      <Filter>Source Files\ui</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="Source Files\MainWindow.ui">
-      <Filter>Source Files</Filter>
+    <QtUic Include="Source Files\ui\MainWindow.ui">
+      <Filter>Source Files\ui</Filter>
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source Files\module\FFmpegBasic.h">
+      <Filter>Source Files\module</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
