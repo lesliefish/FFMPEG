@@ -36,7 +36,7 @@ void VideoDecoder::doDecode(const string& in, const string& out)
     FILE* pFile{ nullptr };
     size_t dataSize{ 0 };
     uint8_t inbuf[INBUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE];
-    uint8_t* data = inbuf;
+    uint8_t* data;
 
     int videoStreamId = getVideoStreamId(in);
     if (-1 == videoStreamId)
@@ -63,10 +63,13 @@ void VideoDecoder::doDecode(const string& in, const string& out)
     {
         /* read raw data from the input file */
         dataSize = fread(inbuf, 1, INBUF_SIZE, pFile);
-        if (!dataSize)
+        if (0 == dataSize)
+        {
             break;
+        }
 
         /* use the parser to split the data into frames */
+        data = inbuf;
         while (dataSize > 0)
         {
             int len = av_parser_parse2(m_parser, m_context, &m_avPacket->data, &m_avPacket->size, inbuf, dataSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
@@ -86,7 +89,7 @@ void VideoDecoder::doDecode(const string& in, const string& out)
     }
 
     /* flush the decoder */
-    decode(m_context, m_frame, NULL, out);
+    decode(m_context, m_frame, nullptr, out);
     fclose(pFile);
 }
 
@@ -192,7 +195,7 @@ int VideoDecoder::getVideoStreamId(const string& inputFile)
     if (-1 == streamIndex)
     {
         fprintf(stderr, "Could not find video stream\n");
-        return false;
+        return -1;
     }
 
     return streamIndex;
