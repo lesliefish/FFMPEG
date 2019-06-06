@@ -43,6 +43,9 @@
     <ClCompile Include="Source Files\module\FFmpegBasic.cpp">
       <Filter>Source Files\module</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\module\VideoDecoder.cpp">
+      <Filter>Source Files\module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -61,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source Files\module\FFmpegBasic.h">
+      <Filter>Source Files\module</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\module\VideoDecoder.h">
       <Filter>Source Files\module</Filter>
     </ClInclude>
   </ItemGroup>
