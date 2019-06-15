@@ -36,8 +36,6 @@ private:
     int getVideoStreamId(const string& inputFile);
 
 private:
-    string m_videoFileName;
-    string m_outFileName;
     const AVCodec* m_avCodec{ nullptr };
     AVFormatContext* m_formatCtx{ nullptr };
     AVCodecParserContext* m_codecParserContext{ nullptr };
