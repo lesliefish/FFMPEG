@@ -12,8 +12,8 @@ VideoDecoder::VideoDecoder()
 
 VideoDecoder::~VideoDecoder()
 {
-    av_parser_close(m_parser);
-    avcodec_free_context(&m_context);
+    av_parser_close(m_codecParserContext);
+    avcodec_free_context(&m_codecContext);
     av_frame_free(&m_frame);
     av_packet_free(&m_avPacket);
 }
@@ -47,15 +47,15 @@ void VideoDecoder::doDecode(const string& in, const string& out)
     // 获取视频流中的编解码上下文 只有知道视频的编码方式，才能够根据编码方式去找到解码器 // https://blog.csdn.net/zwz1984/article/details/82824524
     AVCodecContext *pCodecCtx = m_formatCtx->streams[videoStreamId]->codec;
     m_avCodec = avcodec_find_decoder(pCodecCtx->codec_id);
-    m_parser = av_parser_init(m_avCodec->id);
-    m_context = avcodec_alloc_context3(m_avCodec);
+    m_codecParserContext = av_parser_init(m_avCodec->id);
+    m_codecContext = avcodec_alloc_context3(m_avCodec);
     // 打开解码器
-    avcodec_open2(m_context, m_avCodec, nullptr);
+    avcodec_open2(m_codecContext, m_avCodec, nullptr);
 
     //输出视频信息
     cout << "视频的文件格式：" << m_formatCtx->iformat->name << endl;
     cout << "视频时长：" << m_formatCtx->duration / 1000000 << endl;
-    cout << "视频的宽高：" << pCodecCtx->width << pCodecCtx->height << endl;
+    cout << "视频的宽高：" << pCodecCtx->width << " * " << pCodecCtx->height << endl;
     cout << "解码器的名称：" << m_avCodec->name << endl;
 
     pFile = fopen(in.c_str(), "rb");
@@ -72,7 +72,7 @@ void VideoDecoder::doDecode(const string& in, const string& out)
         data = inbuf;
         while (dataSize > 0)
         {
-            int len = av_parser_parse2(m_parser, m_context, &m_avPacket->data, &m_avPacket->size, inbuf, dataSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
+            int len = av_parser_parse2(m_codecParserContext, m_codecContext, &m_avPacket->data, &m_avPacket->size, inbuf, dataSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
             if (len < 0)
             {
                 fprintf(stderr, "Error while parsing\n");
@@ -83,39 +83,39 @@ void VideoDecoder::doDecode(const string& in, const string& out)
 
             if (m_avPacket->size)
             {
-                decode(m_context, m_frame, m_avPacket, out);
+                decode(m_codecContext, m_frame, m_avPacket, out);
             }
         }
     }
 
     /* flush the decoder */
-    decode(m_context, m_frame, nullptr, out);
+    decode(m_codecContext, m_frame, nullptr, out);
     fclose(pFile);
 }
 
 /*
  * @func   VideoDecoder::decode
  * @brief  解码
- * @param  [in]  AVCodecContext * dec_ctx
+ * @param  [in]  AVCodecContext * codecContext
  * @param  [in]  AVFrame * frame
  * @param  [in]  AVPacket * pkt
  * @param  [in] const std::string & fileName
  * @return void
  */
-void VideoDecoder::decode(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, const std::string& fileName)
+void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket* pkt, const std::string& fileName)
 {
     int ret;
 
-    ret = avcodec_send_packet(dec_ctx, pkt);
+    ret = avcodec_send_packet(codecContext, pkt);
     if (ret < 0) 
     {
         fprintf(stderr, "Error sending a packet for decoding\n");
-        exit(1);
+        return;
     }
 
     while (ret >= 0)
     {
-        ret = avcodec_receive_frame(dec_ctx, frame);
+        ret = avcodec_receive_frame(codecContext, frame);
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
         {
             return;
@@ -123,14 +123,13 @@ void VideoDecoder::decode(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt
         else if (ret < 0)
         {
             fprintf(stderr, "Error during decoding\n");
-            exit(1);
+            return;
         }
 
-        printf("saving frame %3d\n", dec_ctx->frame_number);
+        printf("saving frame %3d\n", codecContext->frame_number);
         fflush(stdout);
 
-        /* the picture is allocated by the decoder. no need to free it */
-        string newFileName = fileName + string("_") + to_string(dec_ctx->frame_number);
+        string newFileName = fileName + string("_") + to_string(codecContext->frame_number);
         pgmSave(frame->data[0], frame->linesize[0], frame->width, frame->height, newFileName);
     }
 }

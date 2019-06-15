@@ -40,8 +40,8 @@ private:
     string m_outFileName;
     const AVCodec* m_avCodec{ nullptr };
     AVFormatContext* m_formatCtx{ nullptr };
-    AVCodecParserContext* m_parser{ nullptr };
-    AVCodecContext* m_context{ nullptr };
+    AVCodecParserContext* m_codecParserContext{ nullptr };
+    AVCodecContext* m_codecContext{ nullptr };
     AVFrame* m_frame{ nullptr };
     AVPacket* m_avPacket{ nullptr };
 };

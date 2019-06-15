@@ -14,6 +14,6 @@ int main(int argc, char *argv[])
     FFmpegBasic::avFilterInfo();
     FFmpegBasic::configurationInfo();
      
-    VideoDecoder::exec("C:/Users/yulei10/Downloads/ss.mov", "C:/Users/yulei10/Downloads/ss.yuv");
+    VideoDecoder::exec("C:\\Users\\aa\\Videos\\aa.mp4", "C:\\Users\\aa\\Videos\\aa.yuv");
     return a.exec();
 }
