@@ -2,6 +2,7 @@
 #include "module/FFmpegBasic.h"
 #include "module/VideoDecoder.h"
 #include "module/FFmpegLogger.h"
+#include "ui/PlayImages/PlayImages.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,13 +10,17 @@ int main(int argc, char *argv[])
 
     FFmpegLogger::init();    
 
-    FFmpegBasic::version();
-    FFmpegBasic::configurationInfo();
-    FFmpegBasic::urlProtocolInfo();
-    FFmpegBasic::avFormatInfo();
-    FFmpegBasic::avCoderInfo();
-    FFmpegBasic::avFilterInfo();
+    //FFmpegBasic::version();
+    //FFmpegBasic::configurationInfo();
+    //FFmpegBasic::urlProtocolInfo();
+    //FFmpegBasic::avFormatInfo();
+    //FFmpegBasic::avCoderInfo();
+    //FFmpegBasic::avFilterInfo();
 
-    VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
+    //VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
+    PlayImages playImages;
+    playImages.show();
+    //playImages.play();
+
     return a.exec();
 }

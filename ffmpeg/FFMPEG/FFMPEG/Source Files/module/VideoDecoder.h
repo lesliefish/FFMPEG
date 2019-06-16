@@ -7,6 +7,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <QObject>
 
 #ifdef _WIN32
 extern "C"
@@ -20,17 +22,26 @@ extern "C"
 
 using namespace std;
 
-class VideoDecoder
+class VideoDecoder : public QObject
 {
+    Q_OBJECT
+    
 public:
     VideoDecoder();
     ~VideoDecoder();
+
+signals:
+    void signalDecodeRgbImage(const string& filePath);
 
 public:
     static void exec(const string& in, const string& out);
 
 public:
+    // 执行解码
     void doDecode(const string& in, const string& out);
+
+    // 获取解码的rgb文件路径
+    vector<string> getRgbFileList() { return m_rgbFilePathList; };
 
 private:
     void decode(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, const std::string& fileName);
@@ -46,5 +57,7 @@ private:
     AVFrame* m_yuvFrame{ nullptr };  
     AVFrame* m_rgbFrame{ nullptr };
     AVPacket* m_avPacket{ nullptr };
-    SwsContext* swsContext{ nullptr };
+    SwsContext* m_swsContext{ nullptr };
+
+    vector<string> m_rgbFilePathList{};
 };

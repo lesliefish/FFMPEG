@@ -35,6 +35,8 @@ void VideoDecoder::exec(const string& in, const string& out)
  */
 void VideoDecoder::doDecode(const string& in, const string& out)
 {
+    m_rgbFilePathList.clear();
+
     FILE* pFile{ nullptr };
     size_t dataSize{ 0 };
     uint8_t inbuf[INBUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE];
@@ -132,14 +134,19 @@ void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket
         fflush(stdout);
 
         string yuvFileName = fileName + string("_") + to_string(codecContext->frame_number) + ".yuv";
-        saveYuv(frame->data[0], frame->linesize[0], frame->width, frame->height, yuvFileName);
+        //saveYuv(frame->data[0], frame->linesize[0], frame->width, frame->height, yuvFileName);
 
         // save rgb fromat
-        swsContext = sws_getContext(codecContext->width, codecContext->height, codecContext->pix_fmt, codecContext->width, codecContext->height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+        m_swsContext = sws_getContext(codecContext->width, codecContext->height, codecContext->pix_fmt, codecContext->width, codecContext->height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+        if (!m_swsContext)
+        {
+            return;
+        }
+
         int numBytes = avpicture_get_size(AV_PIX_FMT_RGB24, codecContext->width, codecContext->height);
         uint8_t* outBuffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
         avpicture_fill((AVPicture *)m_rgbFrame, outBuffer, AV_PIX_FMT_RGB24, codecContext->width, codecContext->height);
-        sws_scale(swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_rgbFrame->data, m_rgbFrame->linesize);
+        sws_scale(m_swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_rgbFrame->data, m_rgbFrame->linesize);
         string rgbFileName = fileName + string("_") + to_string(codecContext->frame_number) + ".ppm";//PPM图像格式(Portable Pixelmap)是一种linux图片格式
         saveppm(m_rgbFrame, codecContext->width, codecContext->height, rgbFileName);
     }
@@ -183,11 +190,17 @@ void VideoDecoder::saveppm(AVFrame* frame, int width, int height, const string& 
     // Write pixel data
     for (int y = 0; y < height; y++)
     {
-        fwrite(frame->data[0] + y * frame->linesize[0], 1, width * 3, pFile);
+        if (frame->data[0])
+        {
+            fwrite(frame->data[0] + y * frame->linesize[0], 1, width * 3, pFile);
+        }
     }
 
     // Close file
     fclose(pFile);
+
+    m_rgbFilePathList.emplace_back(fileName);
+    emit signalDecodeRgbImage(fileName);
 }
 
 /*

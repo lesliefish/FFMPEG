@@ -34,6 +34,9 @@
     <Filter Include="Source Files\ui">
       <UniqueIdentifier>{a8fea8c8-baec-45d9-b990-144a93d9407f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ui\PlayImages">
+      <UniqueIdentifier>{fff87ece-6c6f-4fad-b265-33ebec30112f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -49,6 +52,9 @@
     <ClCompile Include="Source Files\module\FFmpegLogger.cpp">
       <Filter>Source Files\module</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\ui\PlayImages\PlayImages.cpp">
+      <Filter>Source Files\ui\PlayImages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -59,17 +65,23 @@
     <QtMoc Include="Source Files\ui\MainWindow.h">
       <Filter>Source Files\ui</Filter>
     </QtMoc>
+    <QtMoc Include="Source Files\ui\PlayImages\PlayImages.h">
+      <Filter>Source Files\ui\PlayImages</Filter>
+    </QtMoc>
+    <QtMoc Include="Source Files\module\VideoDecoder.h">
+      <Filter>Source Files\module</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Source Files\ui\MainWindow.ui">
       <Filter>Source Files\ui</Filter>
     </QtUic>
+    <QtUic Include="Source Files\ui\PlayImages\PlayImages.ui">
+      <Filter>Source Files\ui\PlayImages</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source Files\module\FFmpegBasic.h">
-      <Filter>Source Files\module</Filter>
-    </ClInclude>
-    <ClInclude Include="Source Files\module\VideoDecoder.h">
       <Filter>Source Files\module</Filter>
     </ClInclude>
     <ClInclude Include="Source Files\module\FFmpegLogger.h">
