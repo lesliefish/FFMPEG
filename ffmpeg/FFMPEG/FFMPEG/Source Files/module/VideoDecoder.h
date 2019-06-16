@@ -13,6 +13,8 @@ extern "C"
 {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+#include "libavutil/pixfmt.h"
 }
 #endif
 
@@ -32,7 +34,8 @@ public:
 
 private:
     void decode(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, const std::string& fileName);
-    void pgmSave(unsigned char *buf, int wrap, int xsize, int ysize, const string& filename);
+    void saveYuv(unsigned char *buf, int wrap, int xsize, int ysize, const string& filename);
+    void saveppm(AVFrame* frame, int width, int height, const string& fileName);
     int getVideoStreamId(const string& inputFile);
 
 private:
@@ -40,6 +43,8 @@ private:
     AVFormatContext* m_formatCtx{ nullptr };
     AVCodecParserContext* m_codecParserContext{ nullptr };
     AVCodecContext* m_codecContext{ nullptr };
-    AVFrame* m_frame{ nullptr };
+    AVFrame* m_yuvFrame{ nullptr };  
+    AVFrame* m_rgbFrame{ nullptr };
     AVPacket* m_avPacket{ nullptr };
+    SwsContext* swsContext{ nullptr };
 };

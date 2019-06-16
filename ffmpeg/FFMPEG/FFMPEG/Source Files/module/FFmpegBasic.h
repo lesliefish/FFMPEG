@@ -30,4 +30,7 @@ public:
 
     //* Configure: FFmpeg类库的配置信息
     static string configurationInfo();
+
+    // 版本
+    static string version();
 };

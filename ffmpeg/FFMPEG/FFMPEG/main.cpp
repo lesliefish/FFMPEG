@@ -7,13 +7,15 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    FFmpegLogger::init();
+    FFmpegLogger::init();    
+
+    FFmpegBasic::version();
+    FFmpegBasic::configurationInfo();
     FFmpegBasic::urlProtocolInfo();
     FFmpegBasic::avFormatInfo();
     FFmpegBasic::avCoderInfo();
     FFmpegBasic::avFilterInfo();
-    FFmpegBasic::configurationInfo();
-     
-    VideoDecoder::exec("C:\\Users\\aa\\Videos\\aa.mp4", "C:\\Users\\aa\\Videos\\aa.yuv");
+
+    VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
     return a.exec();
 }

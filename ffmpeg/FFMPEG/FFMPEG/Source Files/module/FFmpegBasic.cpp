@@ -152,3 +152,9 @@ std::string FFmpegBasic::configurationInfo()
 {
     return string(avdevice_configuration());
 }
+
+std::string FFmpegBasic::version()
+{
+    unsigned int v = avcodec_version();
+    return to_string(v);
+}

@@ -7,14 +7,16 @@ VideoDecoder::VideoDecoder()
 {
     m_avPacket = av_packet_alloc();
     m_formatCtx = avformat_alloc_context();
-    m_frame = av_frame_alloc();
+    m_yuvFrame = av_frame_alloc();
+    m_rgbFrame = av_frame_alloc();
 }
 
 VideoDecoder::~VideoDecoder()
 {
     av_parser_close(m_codecParserContext);
     avcodec_free_context(&m_codecContext);
-    av_frame_free(&m_frame);
+    av_frame_free(&m_yuvFrame);
+    av_frame_free(&m_rgbFrame);
     av_packet_free(&m_avPacket);
 }
 
@@ -59,7 +61,7 @@ void VideoDecoder::doDecode(const string& in, const string& out)
     cout << "解码器的名称：" << m_avCodec->name << endl;
 
     pFile = fopen(in.c_str(), "rb");
-    while (!feof(pFile)) 
+    while (!feof(pFile))
     {
         /* read raw data from the input file */
         dataSize = fread(inbuf, 1, INBUF_SIZE, pFile);
@@ -83,13 +85,13 @@ void VideoDecoder::doDecode(const string& in, const string& out)
 
             if (m_avPacket->size)
             {
-                decode(m_codecContext, m_frame, m_avPacket, out);
+                decode(m_codecContext, m_yuvFrame, m_avPacket, out);
             }
         }
     }
 
     /* flush the decoder */
-    decode(m_codecContext, m_frame, nullptr, out);
+    decode(m_codecContext, m_yuvFrame, nullptr, out);
     fclose(pFile);
 }
 
@@ -107,7 +109,7 @@ void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket
     int ret;
 
     ret = avcodec_send_packet(codecContext, pkt);
-    if (ret < 0) 
+    if (ret < 0)
     {
         fprintf(stderr, "Error sending a packet for decoding\n");
         return;
@@ -129,22 +131,31 @@ void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket
         printf("saving frame %3d\n", codecContext->frame_number);
         fflush(stdout);
 
-        string newFileName = fileName + string("_") + to_string(codecContext->frame_number);
-        pgmSave(frame->data[0], frame->linesize[0], frame->width, frame->height, newFileName);
+        string yuvFileName = fileName + string("_") + to_string(codecContext->frame_number) + ".yuv";
+        saveYuv(frame->data[0], frame->linesize[0], frame->width, frame->height, yuvFileName);
+
+        // save rgb fromat
+        swsContext = sws_getContext(codecContext->width, codecContext->height, codecContext->pix_fmt, codecContext->width, codecContext->height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+        int numBytes = avpicture_get_size(AV_PIX_FMT_RGB24, codecContext->width, codecContext->height);
+        uint8_t* outBuffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
+        avpicture_fill((AVPicture *)m_rgbFrame, outBuffer, AV_PIX_FMT_RGB24, codecContext->width, codecContext->height);
+        sws_scale(swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_rgbFrame->data, m_rgbFrame->linesize);
+        string rgbFileName = fileName + string("_") + to_string(codecContext->frame_number) + ".ppm";//PPM图像格式(Portable Pixelmap)是一种linux图片格式
+        saveppm(m_rgbFrame, codecContext->width, codecContext->height, rgbFileName);
     }
 }
 
 /*
- * @func   VideoDecoder::pgmSave 
+ * @func   VideoDecoder::pgmSave
  * @brief  图片保存
- * @param  [in]  unsigned char * buf  
- * @param  [in]  int wrap  
- * @param  [in]  int xsize  
- * @param  [in]  int ysize  
- * @param  [in]  const string & filename  
- * @return void  
- */ 
-void VideoDecoder::pgmSave(unsigned char *buf, int wrap, int xsize, int ysize, const string& filename)
+ * @param  [in]  unsigned char * buf
+ * @param  [in]  int wrap
+ * @param  [in]  int xsize
+ * @param  [in]  int ysize
+ * @param  [in]  const string & filename
+ * @return void
+ */
+void VideoDecoder::saveYuv(unsigned char *buf, int wrap, int xsize, int ysize, const string& filename)
 {
     FILE *pFile{ nullptr };
     pFile = fopen(filename.c_str(), "w");
@@ -156,12 +167,35 @@ void VideoDecoder::pgmSave(unsigned char *buf, int wrap, int xsize, int ysize, c
     fclose(pFile);
 }
 
+void VideoDecoder::saveppm(AVFrame* frame, int width, int height, const string& fileName)
+{
+    FILE *pFile;
+    char szFilename[32];
+    
+    pFile = fopen(fileName.c_str(), "wb");
+
+    if (pFile == NULL)
+        return;
+
+    // Write header
+    fprintf(pFile, "P6\n %d %d\n 255\n", width, height);
+
+    // Write pixel data
+    for (int y = 0; y < height; y++)
+    {
+        fwrite(frame->data[0] + y * frame->linesize[0], 1, width * 3, pFile);
+    }
+
+    // Close file
+    fclose(pFile);
+}
+
 /*
- * @func   VideoDecoder::getVideoInfo 
+ * @func   VideoDecoder::getVideoInfo
  * @brief  获取视频流id
- * @param  [in]  const string & inputFile  
- * @return int  
- */ 
+ * @param  [in]  const string & inputFile
+ * @return int
+ */
 int VideoDecoder::getVideoStreamId(const string& inputFile)
 {
     //打开输入视频文件
