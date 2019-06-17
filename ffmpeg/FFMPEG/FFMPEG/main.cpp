@@ -18,8 +18,6 @@ int main(int argc, char *argv[])
     //FFmpegBasic::avFilterInfo();
 
     //VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
-    PlayImages playImages;
-    playImages.show();
     //playImages.play();
 
     return a.exec();

@@ -242,3 +242,4 @@ ModelManifest.xml
 .fake/
 /ffmpeg/FFMPEG/FFMPEG/GeneratedFiles/qrc_FFMPEG.cpp
 /ffmpeg/FFMPEG/FFMPEG/GeneratedFiles/ui_MainWindow.h
+/ffmpeg/FFMPEG/FFMPEG/GeneratedFiles/ui_PlayImages.h
