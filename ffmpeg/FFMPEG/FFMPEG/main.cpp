@@ -2,7 +2,7 @@
 #include "module/FFmpegBasic.h"
 #include "module/VideoDecoder.h"
 #include "module/FFmpegLogger.h"
-#include "ui/PlayImages/PlayImages.h"
+#include "players/SimpleSDLPlayer/SimpleSDLPlayer.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 
     //VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
     //playImages.play();
+    SimpleSDLPlayer simpleSDLPlayer;
+    simpleSDLPlayer.play("C:\\Users\\yulei10\\Videos\\aa.mp4");
 
     return a.exec();
 }

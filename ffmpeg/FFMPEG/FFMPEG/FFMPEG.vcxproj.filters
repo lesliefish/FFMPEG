@@ -37,6 +37,12 @@
     <Filter Include="Source Files\ui\PlayImages">
       <UniqueIdentifier>{fff87ece-6c6f-4fad-b265-33ebec30112f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\players">
+      <UniqueIdentifier>{23db30b5-6404-4238-85f2-0c97866c53b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\players\SimpleSDLPlayer">
+      <UniqueIdentifier>{8e0181bc-cc3b-463b-90db-85431a71849b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -55,6 +61,9 @@
     <ClCompile Include="Source Files\ui\PlayImages\PlayImages.cpp">
       <Filter>Source Files\ui\PlayImages</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp">
+      <Filter>Source Files\players\SimpleSDLPlayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -70,6 +79,9 @@
     </QtMoc>
     <QtMoc Include="Source Files\module\VideoDecoder.h">
       <Filter>Source Files\module</Filter>
+    </QtMoc>
+    <QtMoc Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
+      <Filter>Source Files\players\SimpleSDLPlayer</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

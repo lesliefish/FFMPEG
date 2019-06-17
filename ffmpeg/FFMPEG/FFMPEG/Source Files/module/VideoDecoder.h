@@ -31,7 +31,7 @@ public:
     ~VideoDecoder();
 
 signals:
-    void signalDecodeRgbImage(const string& filePath);
+    void signalDecodeEvent(const AVFrame& frame);
 
 public:
     static void exec(const string& in, const string& out);

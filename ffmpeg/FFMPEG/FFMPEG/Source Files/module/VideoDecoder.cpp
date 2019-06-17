@@ -1,6 +1,6 @@
 #include "VideoDecoder.h"
 #include <iostream>
-
+#include <future>
 #define INBUF_SIZE 4096
 
 VideoDecoder::VideoDecoder()
@@ -130,17 +130,33 @@ void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket
             return;
         }
 
-        printf("saving frame %3d\n", codecContext->frame_number);
-        fflush(stdout);
+        {
+            // yuv
+            m_swsContext = sws_getContext(codecContext->width, codecContext->height, codecContext->pix_fmt, codecContext->width, codecContext->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+            if (!m_swsContext)
+            {
+                continue;
+            }
+            int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, codecContext->width, codecContext->height);
+            uint8_t* outBuffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
+            avpicture_fill((AVPicture *)m_rgbFrame, outBuffer, AV_PIX_FMT_YUV420P, codecContext->width, codecContext->height);
+            sws_scale(m_swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_rgbFrame->data, m_rgbFrame->linesize);
+            emit signalDecodeEvent(*frame);
+            //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            return;
+        }
 
+
+        return;
+        printf("saving frame %3d\n", codecContext->frame_number);
         string yuvFileName = fileName + string("_") + to_string(codecContext->frame_number) + ".yuv";
-        //saveYuv(frame->data[0], frame->linesize[0], frame->width, frame->height, yuvFileName);
+        saveYuv(frame->data[0], frame->linesize[0], frame->width, frame->height, yuvFileName);
 
         // save rgb fromat
         m_swsContext = sws_getContext(codecContext->width, codecContext->height, codecContext->pix_fmt, codecContext->width, codecContext->height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
         if (!m_swsContext)
         {
-            return;
+            continue;
         }
 
         int numBytes = avpicture_get_size(AV_PIX_FMT_RGB24, codecContext->width, codecContext->height);
@@ -200,7 +216,6 @@ void VideoDecoder::saveppm(AVFrame* frame, int width, int height, const string& 
     fclose(pFile);
 
     m_rgbFilePathList.emplace_back(fileName);
-    emit signalDecodeRgbImage(fileName);
 }
 
 /*

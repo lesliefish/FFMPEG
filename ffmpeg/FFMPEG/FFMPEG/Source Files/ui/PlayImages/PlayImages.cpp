@@ -20,13 +20,6 @@ PlayImages::~PlayImages()
 void PlayImages::play()
 {
     VideoDecoder decoder;
-    connect(&decoder, &VideoDecoder::signalDecodeRgbImage, [&](const string& filePath)
-    {
-        //if (m_image == QImage())
-        //{
-        //    m_image = QImage(QString::fromStdString(filePath));
-        //}
-    });
 
     std::async([&]
     {
