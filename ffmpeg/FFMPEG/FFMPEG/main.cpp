@@ -6,21 +6,12 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    //QApplication a(argc, argv);
 
-    FFmpegLogger::init();    
+    SimpleSDLPlayer simpleSDLPlayer(352, 288, 176, 144, "SDL2 Player");
+    simpleSDLPlayer.play("suzie_qcif.yuv");
+    
+    //return a.exec();
 
-    //FFmpegBasic::version();
-    //FFmpegBasic::configurationInfo();
-    //FFmpegBasic::urlProtocolInfo();
-    //FFmpegBasic::avFormatInfo();
-    //FFmpegBasic::avCoderInfo();
-    //FFmpegBasic::avFilterInfo();
-
-    //VideoDecoder::exec("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
-    //playImages.play();
-    SimpleSDLPlayer simpleSDLPlayer;
-    simpleSDLPlayer.play("C:\\Users\\yulei10\\Videos\\aa.mp4");
-
-    return a.exec();
+    return 0;
 }

@@ -1,8 +1,165 @@
 #include "SimpleSDLPlayer.h"
-#include "module/VideoDecoder.h"
 #include <future>
-#include <QEventLoop>
-#include <QTimer>
+#include <iostream>
+
+using namespace std;
+
+//Refresh Event
+#define REFRESH_EVENT  (SDL_USEREVENT + 1)
+#define BREAK_EVENT  (SDL_USEREVENT + 2)
+
+/*
+ * @func   SimpleSDLPlayer::SimpleSDLPlayer 
+ * @brief  构造函数
+ * @param  [in]  int playerWidth  播放器宽度
+ * @param  [in]  int playerHeight  播放器高度
+ * @param  [in]  int yuvImagePixelWidth  yuv文件图像像素宽度
+ * @param  [in]  int yuvImagePixelHeight  yuv文件图像像素高度
+ * @param  [in]  const std::string & playerName  播放器名称
+ * @return   
+ */ 
+SimpleSDLPlayer::SimpleSDLPlayer(int playerWidth, int playerHeight, int yuvImagePixelWidth, int yuvImagePixelHeight, const std::string& playerName /*= ""*/)
+{
+    m_playerWindowWidth = playerWidth;
+    m_playerWindowHeight = playerHeight;
+    m_imagePixelWidth = yuvImagePixelWidth;
+    m_imagePixelHeight = yuvImagePixelHeight;
+    m_playerName = playerName;
+
+    if (!initSDLInfo())
+        return;
+}
+
+SimpleSDLPlayer::~SimpleSDLPlayer()
+{
+}
+
+/*
+ * @func   SimpleSDLPlayer::initSDLInfo 
+ * @brief  初始化SDL
+ * @return bool  
+ */ 
+bool SimpleSDLPlayer::initSDLInfo()
+{
+    if (SDL_Init(SDL_INIT_VIDEO))
+    {
+        cout << "Could not initialize SDL : " << SDL_GetError() << endl;
+        return false;
+    }
+
+    // 播放窗口创建
+    m_playerWindow = SDL_CreateWindow(m_playerName.c_str(),
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        m_playerWindowWidth, m_playerWindowHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+    if (!m_playerWindow)
+    {
+        cout << "SDL: could not create window - exiting: " << SDL_GetError() << endl;
+        return false;
+    }
+
+    // 渲染
+    m_sdlRenderer = SDL_CreateRenderer(m_playerWindow, -1, 0);
+    if (!m_sdlRenderer)
+    {
+        cout << "SDL: could not create render - exiting: " << SDL_GetError() << endl;
+        return false;
+    }
+
+    // 纹理
+    m_sdlTexture = SDL_CreateTexture(m_sdlRenderer, m_pixformat, SDL_TEXTUREACCESS_STREAMING, m_imagePixelWidth, m_imagePixelHeight);
+    if (!m_sdlTexture)
+    {
+        cout << "SDL: could not create texture - exiting: " << SDL_GetError() << endl;
+        return false;
+    }
+
+    return true;
+}
+
+/*
+ * @func   SimpleSDLPlayer::play 
+ * @brief  播放文件
+ * @param  [in]  const std::string & filePath  文件路径
+ * @return bool  
+ */ 
+bool SimpleSDLPlayer::play(const std::string& filePath)
+{
+    FILE *fp = NULL;
+    fp = fopen(filePath.c_str(), "rb+");
+    if (fp == NULL) 
+    {
+        cout << "cannot open this file" << endl;
+        return false;
+    }
+
+    bool isOver{ false };
+    // 使用std::async异步执行刷新任务 相当于开子线程执行任务
+    auto fut = std::async([&]
+    {
+        while (!isOver)
+        {
+            SDL_Event event;
+            event.type = REFRESH_EVENT;
+            SDL_PushEvent(&event);
+            SDL_Delay(40);
+        }
+        isOver = false;
+        //Break
+        SDL_Event event;
+        event.type = BREAK_EVENT;
+        SDL_PushEvent(&event);
+
+        return 0;
+    });
+
+    SDL_Event event;
+    SDL_Rect sdlRect;
+
+    while (true) 
+    {
+        const int bpp = 12;
+        shared_ptr<char*> pBuffer = make_shared<char*>(new char[m_imagePixelWidth * m_imagePixelHeight * bpp / 8]);
+        // 等待有效事件
+        SDL_WaitEvent(&event);
+        if (event.type == REFRESH_EVENT) 
+        {
+            if (fread(*pBuffer.get(), 1, m_imagePixelWidth*m_imagePixelHeight*bpp / 8, fp) != m_imagePixelWidth*m_imagePixelHeight*bpp / 8)
+            {
+                // Loop
+                fseek(fp, 0, SEEK_SET);
+                fread(*pBuffer.get(), 1, m_imagePixelWidth*m_imagePixelHeight*bpp / 8, fp);
+            }
+
+            SDL_UpdateTexture(m_sdlTexture, NULL, *pBuffer.get(), m_imagePixelWidth);
+
+            //FIX: If window is resize
+            sdlRect.x = 0;
+            sdlRect.y = 0;
+            sdlRect.w = m_playerWindowWidth;
+            sdlRect.h = m_playerWindowHeight;
+
+            SDL_RenderClear(m_sdlRenderer);
+            SDL_RenderCopy(m_sdlRenderer, m_sdlTexture, NULL, &sdlRect);
+            SDL_RenderPresent(m_sdlRenderer);
+        }
+        else if (event.type == SDL_WINDOWEVENT) 
+        {
+            //If Resize
+            SDL_GetWindowSize(m_playerWindow, &m_playerWindowWidth, &m_playerWindowHeight);
+        }
+        else if (event.type == SDL_QUIT) 
+        {
+            isOver = true;
+        }
+        else if (event.type == BREAK_EVENT) 
+        {
+            break;
+        }
+    }
+    SDL_Quit();
+}
+
 
 /*
 SDL1.2 ---> SDL2.0 函数变化
@@ -16,84 +173,3 @@ SDL_VideoInfo：使用SDL_GetRendererInfo()/ SDL_GetRenderDriverInfo()代替
 SDL_GetCurrentVideoDisplay()：使用SDL_GetWindowDisplayIndex()代替
 SDL_VIDEORESIZE事件：新等效项为SDL_WINDOWEVENT_RESIZED
 */
-
-SimpleSDLPlayer::SimpleSDLPlayer(QObject *parent)
-    : QObject(parent)
-{
-
-
-}
-
-SimpleSDLPlayer::~SimpleSDLPlayer()
-{
-}
-
-void SimpleSDLPlayer::play(const std::string& filePath)
-{
-    if (SDL_Init(SDL_INIT_VIDEO))
-    {
-        printf("Could not initialize SDL - %s\n", SDL_GetError());
-        return;
-    }
-
-    //SDL
-    int screenWidth = 640, screenHeight = 480;
-    const int pixelWidth = 640, pixelHeight = 480;
-    const int bpp = 12;
-    unsigned char buffer[pixelWidth * pixelHeight * bpp / 8];
-
-    //窗口  
-    SDL_Window *sdlScreen;
-    //渲染器  
-    SDL_Renderer* sdlRenderer;
-    //纹理  
-    SDL_Texture* sdlTexture;
-    //矩形结构  
-    SDL_Rect sdlRect;
-
-    sdlScreen = SDL_CreateWindow("Simple SDL Player",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        screenWidth, screenHeight,
-        SDL_WINDOW_SHOWN);
-
-    sdlRenderer = SDL_CreateRenderer(sdlScreen, -1, SDL_RENDERER_ACCELERATED);
-
-    sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, pixelWidth, pixelHeight);
-    if (sdlTexture == NULL)
-    {
-        printf("SDL: could not create SDL_Texture - exiting:%s\n", SDL_GetError());
-        return;
-    }
-
-    
-    VideoDecoder decoder;
-    QEventLoop loop;
-    auto fut = std::async(std::launch::deferred, [&]
-    {
-        decoder.doDecode("C:\\Users\\yulei10\\Videos\\aa.mp4", "C:\\Users\\yulei10\\Videos\\aa");
-        loop.quit();
-    });
-
-    connect(&decoder, &VideoDecoder::signalDecodeEvent, [&](const AVFrame& frame) 
-    {
-        SDL_UpdateTexture(sdlTexture, NULL, frame.data[0], frame.linesize[0]);
-        sdlRect.x = 0;
-        sdlRect.y = 0;
-        sdlRect.w = screenWidth;
-        sdlRect.h = screenHeight;
-        SDL_RenderClear(sdlRenderer);
-        SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, &sdlRect);
-        SDL_RenderPresent(sdlRenderer);
-    });
-
-    QTimer::singleShot(1000, [&] 
-    {
-        fut.get();
-    });
-    loop.exec();
-    SDL_DestroyTexture(sdlTexture);
-    SDL_DestroyRenderer(sdlRenderer);
-    SDL_DestroyWindow(sdlScreen);
-    SDL_Quit();
-}

@@ -31,12 +31,6 @@
     <Filter Include="Source Files\module">
       <UniqueIdentifier>{f696d03d-237c-46e3-9d70-947197928caa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ui">
-      <UniqueIdentifier>{a8fea8c8-baec-45d9-b990-144a93d9407f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ui\PlayImages">
-      <UniqueIdentifier>{fff87ece-6c6f-4fad-b265-33ebec30112f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\players">
       <UniqueIdentifier>{23db30b5-6404-4238-85f2-0c97866c53b9}</UniqueIdentifier>
     </Filter>
@@ -46,9 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source Files\ui\MainWindow.cpp">
-      <Filter>Source Files\ui</Filter>
-    </ClCompile>
     <ClCompile Include="Source Files\module\FFmpegBasic.cpp">
       <Filter>Source Files\module</Filter>
     </ClCompile>
@@ -57,9 +48,6 @@
     </ClCompile>
     <ClCompile Include="Source Files\module\FFmpegLogger.cpp">
       <Filter>Source Files\module</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Files\ui\PlayImages\PlayImages.cpp">
-      <Filter>Source Files\ui\PlayImages</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp">
       <Filter>Source Files\players\SimpleSDLPlayer</Filter>
@@ -71,26 +59,9 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Source Files\ui\MainWindow.h">
-      <Filter>Source Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="Source Files\ui\PlayImages\PlayImages.h">
-      <Filter>Source Files\ui\PlayImages</Filter>
-    </QtMoc>
     <QtMoc Include="Source Files\module\VideoDecoder.h">
       <Filter>Source Files\module</Filter>
     </QtMoc>
-    <QtMoc Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
-      <Filter>Source Files\players\SimpleSDLPlayer</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="Source Files\ui\MainWindow.ui">
-      <Filter>Source Files\ui</Filter>
-    </QtUic>
-    <QtUic Include="Source Files\ui\PlayImages\PlayImages.ui">
-      <Filter>Source Files\ui\PlayImages</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source Files\module\FFmpegBasic.h">
@@ -98,6 +69,9 @@
     </ClInclude>
     <ClInclude Include="Source Files\module\FFmpegLogger.h">
       <Filter>Source Files\module</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
+      <Filter>Source Files\players\SimpleSDLPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
