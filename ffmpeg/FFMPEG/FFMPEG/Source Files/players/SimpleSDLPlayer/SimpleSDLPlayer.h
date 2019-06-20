@@ -1,10 +1,13 @@
+/** @file   SimpleSDLPlayer.h
+ *  @brief  SDL2.0 yuv²¥·ÅÆ÷
+ *  @note   
+ *  @author lesliefish
+ *  @date   2019/06/20
+ */
 #pragma once
 
 extern "C"
 {
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-#include "libswscale/swscale.h"
 #include "SDL/SDL.h"
 }
 

@@ -158,6 +158,8 @@ bool SimpleSDLPlayer::play(const std::string& filePath)
         }
     }
     SDL_Quit();
+
+    return true;
 }
 
 
