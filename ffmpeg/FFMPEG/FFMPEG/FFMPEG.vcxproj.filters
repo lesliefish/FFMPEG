@@ -37,6 +37,9 @@
     <Filter Include="Source Files\players\SimpleSDLPlayer">
       <UniqueIdentifier>{8e0181bc-cc3b-463b-90db-85431a71849b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\sdl">
+      <UniqueIdentifier>{b59a65f4-37c8-41a0-bce2-763c8e0fcd1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -51,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp">
       <Filter>Source Files\players\SimpleSDLPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp">
+      <Filter>Source Files\sdl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
       <Filter>Source Files\players\SimpleSDLPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\sdl\SdlImageViewer.h">
+      <Filter>Source Files\sdl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

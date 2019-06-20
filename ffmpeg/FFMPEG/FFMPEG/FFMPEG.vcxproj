@@ -120,6 +120,7 @@
     <ClCompile Include="Source Files\module\FFmpegLogger.cpp" />
     <ClCompile Include="Source Files\module\VideoDecoder.cpp" />
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp" />
+    <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc" />
@@ -131,6 +132,7 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages</IncludePath>
     </ClInclude>
+    <ClInclude Include="Source Files\sdl\SdlImageViewer.h" />
     <QtMoc Include="Source Files\module\VideoDecoder.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include;.\Source Files\ui\PlayImages</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages</IncludePath>
