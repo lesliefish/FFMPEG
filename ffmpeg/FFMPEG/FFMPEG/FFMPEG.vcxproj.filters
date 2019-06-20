@@ -40,6 +40,9 @@
     <Filter Include="Source Files\sdl">
       <UniqueIdentifier>{b59a65f4-37c8-41a0-bce2-763c8e0fcd1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\players\FFmpegSDLPlayer">
+      <UniqueIdentifier>{9776ef3a-1c4f-4a6f-b95b-0861e47f724e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -57,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp">
       <Filter>Source Files\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.cpp">
+      <Filter>Source Files\players\FFmpegSDLPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="Source Files\sdl\SdlImageViewer.h">
       <Filter>Source Files\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.h">
+      <Filter>Source Files\players\FFmpegSDLPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
