@@ -46,14 +46,21 @@ namespace sdl2
         }
 
         SDL_BlitSurface(m_imageSurface, nullptr, m_windowSurface, nullptr);
+
         SDL_UpdateWindowSurface(m_window);
         
         SDL_Event event;
-
         while (true)
         {
-            SDL_UpdateWindowSurface(m_window);
             SDL_WaitEvent(&event);
+            if (event.type == SDL_QUIT)
+            {
+                break;
+            }
+            else if (event.type == SDL_WINDOWEVENT)
+            {
+                SDL_UpdateWindowSurface(m_window);
+            }
         }
 
         return true;
