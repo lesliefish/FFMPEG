@@ -139,8 +139,8 @@ void VideoDecoder::decode(AVCodecContext* codecContext, AVFrame* frame, AVPacket
             }
             int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, codecContext->width, codecContext->height);
             uint8_t* outBuffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
-            avpicture_fill((AVPicture *)m_rgbFrame, outBuffer, AV_PIX_FMT_YUV420P, codecContext->width, codecContext->height);
-            sws_scale(m_swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_rgbFrame->data, m_rgbFrame->linesize);
+            avpicture_fill((AVPicture *)m_yuvFrame, outBuffer, AV_PIX_FMT_YUV420P, codecContext->width, codecContext->height);
+            sws_scale(m_swsContext, frame->data, frame->linesize, 0, m_codecContext->height, m_yuvFrame->data, m_yuvFrame->linesize);
             emit signalDecodeEvent(*frame);
             //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             return;
