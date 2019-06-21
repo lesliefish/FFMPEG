@@ -43,6 +43,9 @@
     <Filter Include="Source Files\players\FFmpegSDLPlayer">
       <UniqueIdentifier>{9776ef3a-1c4f-4a6f-b95b-0861e47f724e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\players\FFmpegAudioPlayer">
+      <UniqueIdentifier>{6482f404-c14e-4279-b25f-f2cf5b56a70e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -63,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.cpp">
       <Filter>Source Files\players\FFmpegSDLPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.cpp">
+      <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.h">
       <Filter>Source Files\players\FFmpegSDLPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h">
+      <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

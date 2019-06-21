@@ -119,6 +119,7 @@
     <ClCompile Include="Source Files\module\FFmpegBasic.cpp" />
     <ClCompile Include="Source Files\module\FFmpegLogger.cpp" />
     <ClCompile Include="Source Files\module\VideoDecoder.cpp" />
+    <ClCompile Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.cpp" />
     <ClCompile Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.cpp" />
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp" />
     <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp" />
@@ -129,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="Source Files\module\FFmpegBasic.h" />
     <ClInclude Include="Source Files\module\FFmpegLogger.h" />
+    <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h" />
     <ClInclude Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.h" />
     <ClInclude Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages</IncludePath>
