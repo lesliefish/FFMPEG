@@ -24,7 +24,8 @@ extern "C"
 class FFmpegSDLPlayer
 {
 public:
-    FFmpegSDLPlayer();
+    FFmpegSDLPlayer(const std::string& playerName, int playWindowWidth = 1280, int playWindowHeight = 720);
+    ~FFmpegSDLPlayer();
 
 public:
     void play(const std::string& filePath);
@@ -51,7 +52,8 @@ private:
     
     // 变量结构体 包括编解码器类型、采样率、声道数等等
     AVCodecContext* m_codecContext{ nullptr }; 
-    AVFrame* m_yuvFrame{ nullptr };
+    AVFrame* m_yuvFrame{ nullptr };// 解码后frame
+    AVFrame* m_frame{ nullptr }; // 存储转码后frame
     AVPacket* m_avPacket{ nullptr };
     SwsContext* m_swsContext{ nullptr };
 
@@ -61,4 +63,10 @@ private:
 
     int m_audioStream{ -1 }; // 音频流id
     int m_videoStream{ -1 }; // 视频流id
+
+    // 默认窗口大小
+    int m_playerWidth{ 1280 };
+    int m_playerHeight{ 720 };
+
+    std::string m_playerName;
 };
