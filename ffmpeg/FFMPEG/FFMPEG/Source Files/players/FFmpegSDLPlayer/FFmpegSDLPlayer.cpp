@@ -64,9 +64,9 @@ void FFmpegSDLPlayer::play(const std::string& filePath)
     }
 
     // 一帧AV_PIX_FMT_YUV420P格式图像size
-    int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight);
+    int numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight, 1);
     shared_ptr<uint8_t*> buffer = make_shared<uint8_t*>(new uint8_t[numBytes]);
-    avpicture_fill((AVPicture *)m_yuvFrame, *buffer.get(), AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight);//填充AVFrame
+    av_image_fill_arrays(m_yuvFrame->data, m_yuvFrame->linesize, *buffer.get(), AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight, 1);
     SDL_Rect rect;
     SDL_Event event;
 
@@ -110,9 +110,9 @@ void FFmpegSDLPlayer::play(const std::string& filePath)
                 // 仅当尺寸变了时才执行如下语句
                 m_playerWidth = curWidth;
                 m_playerHeight = curHeight;
-                int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight);
-                shared_ptr<uint8_t*> buffer = make_shared<uint8_t*>(new uint8_t[numBytes]);
-                avpicture_fill((AVPicture *)m_yuvFrame, *buffer.get(), AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight);//填充AVFrame
+                int bytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight, 1);
+                shared_ptr<uint8_t*> buffer = make_shared<uint8_t*>(new uint8_t[bytes]);
+                av_image_fill_arrays(m_yuvFrame->data, m_yuvFrame->linesize, *buffer.get(), AV_PIX_FMT_YUV420P, m_playerWidth, m_playerHeight, 1);
             }
         }
         else if (event.type == REFRESH_EVENT)
