@@ -46,6 +46,9 @@
     <Filter Include="Source Files\players\FFmpegAudioPlayer">
       <UniqueIdentifier>{6482f404-c14e-4279-b25f-f2cf5b56a70e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\players\FFmpegQtPlayer">
+      <UniqueIdentifier>{86504e47-0235-448f-bb1b-ef7d824f09cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -70,6 +73,9 @@
     <ClCompile Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.cpp">
       <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.cpp">
+      <Filter>Source Files\players\FFmpegQtPlayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -79,6 +85,9 @@
   <ItemGroup>
     <QtMoc Include="Source Files\module\VideoDecoder.h">
       <Filter>Source Files\module</Filter>
+    </QtMoc>
+    <QtMoc Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.h">
+      <Filter>Source Files\players\FFmpegQtPlayer</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

@@ -54,7 +54,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -65,13 +65,13 @@
       <OutputFile>$(OutDir)\$(ProjectName)_D.exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
     <QtUic>
@@ -87,7 +87,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -102,7 +102,7 @@
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
     <QtUic>
@@ -120,6 +120,7 @@
     <ClCompile Include="Source Files\module\FFmpegLogger.cpp" />
     <ClCompile Include="Source Files\module\VideoDecoder.cpp" />
     <ClCompile Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.cpp" />
+    <ClCompile Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.cpp" />
     <ClCompile Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.cpp" />
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp" />
     <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp" />
@@ -131,6 +132,10 @@
     <ClInclude Include="Source Files\module\FFmpegBasic.h" />
     <ClInclude Include="Source Files\module\FFmpegLogger.h" />
     <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h" />
+    <QtMoc Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer</IncludePath>
+    </QtMoc>
     <ClInclude Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.h" />
     <ClInclude Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages</IncludePath>
