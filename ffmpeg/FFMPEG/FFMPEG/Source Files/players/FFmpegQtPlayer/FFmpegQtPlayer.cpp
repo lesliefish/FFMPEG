@@ -9,7 +9,8 @@ using namespace std;
 FFmpegQtPlayer::FFmpegQtPlayer(QWidget *parent)
     : QWidget(parent)
 {
-    resize(m_playerWidth, m_playerHeight);
+    setWindowTitle(tr("FFmpeg+Qt Video Player"));
+
     initDatas();
 
     // 收到刷新消息 调用update()刷新
@@ -38,6 +39,7 @@ void FFmpegQtPlayer::play(const std::string& filPath, int width /*= 1280*/, int 
     m_filePath = filPath;
     m_playerWidth = width;
     m_playerHeight = height;
+    resize(m_playerWidth, m_playerHeight);
 
     // 获取流
     if (!getStreams())
@@ -136,6 +138,11 @@ bool FFmpegQtPlayer::initDatas()
     return true;
 }
 
+/*
+ * @func   FFmpegQtPlayer::getStreams 
+ * @brief  获取视频流
+ * @return bool  
+ */ 
 bool FFmpegQtPlayer::getStreams()
 {
     //打开输入视频文件
@@ -166,6 +173,11 @@ bool FFmpegQtPlayer::getStreams()
     return true;
 }
 
+/*
+ * @func   FFmpegQtPlayer::avcodecOpen 
+ * @brief  打开解码器
+ * @return bool  
+ */ 
 bool FFmpegQtPlayer::avcodecOpen()
 {
     m_codecContext = m_formatCtx->streams[m_videoStream]->codec;

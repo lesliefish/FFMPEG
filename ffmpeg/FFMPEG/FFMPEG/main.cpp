@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     //SimpleSDLPlayer simpleSDLPlayer(352, 288, 176, 144, "SDL2 Player");
     //simpleSDLPlayer.play("suzie_qcif.yuv");
     FFmpegQtPlayer ffmpegQtPlayer;
-    ffmpegQtPlayer.play("test.mp4");
+    ffmpegQtPlayer.play("test.mp4", 640, 360);
     //return 0;
     //
     //FFmpegSDLPlayer ffmpegSDLPlayer("FFmpeg SDL2 Player");
