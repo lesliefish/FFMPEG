@@ -53,9 +53,9 @@ void FFmpegQtPlayer::play(const std::string& filPath, int width /*= 1280*/, int 
         return;
     }
 
-    bool isReadOver = false;
     show();
 
+    bool isReadOver = false;
     QEventLoop loop;
     // 放到子线程执行
     m_thread = std::thread([&]
