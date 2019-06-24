@@ -22,11 +22,14 @@ void FFmpegAudioPlayer::play(const std::string& filePath)
     {
         return;
     }
+
+
 }
 
 bool FFmpegAudioPlayer::initDatas()
 {
     m_formatContext = avformat_alloc_context();
+    m_audioConvertContext = swr_alloc();
 
     return true;
 }
@@ -85,8 +88,10 @@ bool FFmpegAudioPlayer::avcodecOpen()
     }
 
     //输出视频信息
-    cout << "audio format ： " << m_formatContext->iformat->name << endl;
-    cout << "audio duration ： " << m_formatContext->duration / 1000000 << endl;
+    cout << "Bitrate:\t " << m_formatContext->bit_rate << endl;
+    cout << "Decoder Name:\t" << m_codecContext->codec->long_name << endl;
+    cout << "Channels:\t " << m_codecContext->channels << endl;
+    cout << "Sample per Second : \t" << m_codecContext->sample_rate << endl;
     cout << "audio name : " << m_avCodec->name << endl;
 
     av_dump_format(m_formatContext, 0, m_filePath.c_str(), 0);
