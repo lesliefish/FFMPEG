@@ -124,6 +124,7 @@
     <ClCompile Include="Source Files\players\FFmpegSDLPlayer\FFmpegSDLPlayer.cpp" />
     <ClCompile Include="Source Files\players\SimpleSDLPlayer\SimpleSDLPlayer.cpp" />
     <ClCompile Include="Source Files\sdl\SdlImageViewer.cpp" />
+    <ClCompile Include="Source Files\tests\readVideoFromFile.h" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc" />

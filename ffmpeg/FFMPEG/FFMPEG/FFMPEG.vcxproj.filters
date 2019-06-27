@@ -49,6 +49,9 @@
     <Filter Include="Source Files\players\FFmpegQtPlayer">
       <UniqueIdentifier>{86504e47-0235-448f-bb1b-ef7d824f09cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{d8a6e7f2-8736-46a5-b4b3-fd5b6ae64355}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -75,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.cpp">
       <Filter>Source Files\players\FFmpegQtPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\tests\readVideoFromFile.h">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
