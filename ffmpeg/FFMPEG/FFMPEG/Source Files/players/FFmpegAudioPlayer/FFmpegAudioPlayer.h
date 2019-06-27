@@ -33,7 +33,8 @@ private:
     AVCodecContext* m_codecContext{ nullptr };
     AVCodec* m_avCodec{ nullptr };
     SwrContext* m_audioConvertContext{ nullptr };
-
+    AVFrame* m_frame{ nullptr };
+    AVPacket* m_avPacket{ nullptr };
     // ½âÎöÆ÷
     AVCodecParserContext* m_codecParserContext{ nullptr };
 

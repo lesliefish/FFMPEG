@@ -11,12 +11,12 @@
 using namespace sdl2;
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    //QApplication a(argc, argv);
 
     //SimpleSDLPlayer simpleSDLPlayer(352, 288, 176, 144, "SDL2 Player");
     //simpleSDLPlayer.play("suzie_qcif.yuv");
-    FFmpegQtPlayer ffmpegQtPlayer;
-    ffmpegQtPlayer.play("test.mp4", 640, 360);
+    //FFmpegQtPlayer ffmpegQtPlayer;
+    //ffmpegQtPlayer.play("test.mp4", 640, 360);
     //return 0;
     //
     //FFmpegSDLPlayer ffmpegSDLPlayer("FFmpeg SDL2 Player");
@@ -25,10 +25,10 @@ int main(int argc, char *argv[])
     ////SdlImageViewer viewer;
     ////viewer.displayImage("bmpfile.bmp");
     //return 0;
-    //FFmpegAudioPlayer ffmpegAudioPlayer;
-    //ffmpegAudioPlayer.play("test.mp4");
+    FFmpegAudioPlayer ffmpegAudioPlayer;
+    ffmpegAudioPlayer.play("Sleep Away.mp3");
 
-    return a.exec();
+    //return a.exec();
 
     return 0;
 }
