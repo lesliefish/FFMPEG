@@ -159,18 +159,18 @@ int main(int argc, char *argv[]) {
         av_free_packet(&packet);
     }
 
-    // Free the RGB image
+    // 释放 RGB 内存
     av_free(buffer);
     av_frame_free(&pFrameRGB);
 
-    // Free the YUV frame
+    // 释放 YUV 内存
     av_frame_free(&pFrame);
 
-    // Close the codecs
+    // 关闭解码器
     avcodec_close(pCodecCtx);
     avcodec_close(pCodecCtxOrig);
 
-    // Close the video file
+    // 关闭视频文件
     avformat_close_input(&pFormatCtx);
 
     return 0;
