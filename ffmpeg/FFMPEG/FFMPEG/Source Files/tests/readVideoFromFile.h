@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
                     pFrameRGB->data, pFrameRGB->linesize);
 
                 // 保存帧数据到磁盘(测试只保存5帧)
-                if (++i % 20 == 0)
+                if (++i <= 5)
                 {
                     saveFrame(pFrameRGB, pCodecCtx->width, pCodecCtx->height, i);
                 }
