@@ -9,7 +9,7 @@
 #include "sdl/SdlImageViewer.h"
 
 using namespace sdl2;
-int main9(int argc, char *argv[])
+int main2222(int argc, char *argv[])
 {
     //QApplication a(argc, argv);
 

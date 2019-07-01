@@ -112,10 +112,10 @@
     <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h">
       <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="Source Files\tests\ReadVideoFromFile.h">
+    <ClInclude Include="Source Files\tests\PlayVideoUseSDL.cpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
-    <ClInclude Include="Source Files\tests\PlayVideoUseSDL.h">
+    <ClInclude Include="Source Files\tests\ReadVideoFromFile.cpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>

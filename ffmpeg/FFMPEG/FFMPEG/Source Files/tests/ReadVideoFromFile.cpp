@@ -45,7 +45,7 @@ void saveFrame(AVFrame *pFrame, int width, int height, int iFrame)
     fclose(pFile);
 }
 
-int main(int argc, char *argv[]) 
+int main3(int argc, char *argv[]) 
 {
     // 将这些值初始化为null
     AVFormatContext   *pFormatCtx = NULL;
