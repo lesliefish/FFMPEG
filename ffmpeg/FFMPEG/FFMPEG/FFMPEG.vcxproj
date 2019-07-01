@@ -132,6 +132,7 @@
     <ClInclude Include="Source Files\module\FFmpegBasic.h" />
     <ClInclude Include="Source Files\module\FFmpegLogger.h" />
     <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h" />
+    <ClInclude Include="Source Files\tests\PlayVideoUseSDL.h" />
     <ClInclude Include="Source Files\tests\ReadVideoFromFile.h" />
     <QtMoc Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Source Files;.\..\include\sdl;.\..\include;.\Source Files\ui\PlayImages;.\Source Files\players\SimpleSDLPlayer;.\Source Files\players\FFmpegQtPlayer</IncludePath>
