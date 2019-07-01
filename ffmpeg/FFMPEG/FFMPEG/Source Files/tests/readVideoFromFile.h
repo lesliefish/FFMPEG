@@ -5,9 +5,12 @@
  *  @date   2019/06/27
  */
 
+extern "C"
+{
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
+}
 
 #include <stdio.h>
 
@@ -17,29 +20,33 @@
 #define av_frame_free avcodec_free_frame
 #endif
 
-void saveFrame(AVFrame *pFrame, int width, int height, int iFrame) {
+void saveFrame(AVFrame *pFrame, int width, int height, int iFrame)
+{
     FILE *pFile;
     char szFilename[32];
     int  y;
 
-    // Open file
+    // 打开文件
     sprintf(szFilename, "frame%d.ppm", iFrame);
     pFile = fopen(szFilename, "wb");
     if (pFile == NULL)
         return;
 
-    // Write header
+    // 写入文件头
     fprintf(pFile, "P6\n%d %d\n255\n", width, height);
 
-    // Write pixel data
+    // 写入像素数据
     for (y = 0; y < height; y++)
+    {
         fwrite(pFrame->data[0] + y*pFrame->linesize[0], 1, width * 3, pFile);
+    }
 
-    // Close file
+    // 关闭文件
     fclose(pFile);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
     // 将这些值初始化为null
     AVFormatContext   *pFormatCtx = NULL;
     int               i, videoStream;
@@ -147,8 +154,8 @@ int main(int argc, char *argv[]) {
                     pFrame->linesize, 0, pCodecCtx->height,
                     pFrameRGB->data, pFrameRGB->linesize);
 
-                // 保存帧数据到磁盘
-                if (++i <= 5)
+                // 保存帧数据到磁盘(测试只保存5帧)
+                if (++i % 20 == 0)
                 {
                     saveFrame(pFrameRGB, pCodecCtx->width, pCodecCtx->height, i);
                 }

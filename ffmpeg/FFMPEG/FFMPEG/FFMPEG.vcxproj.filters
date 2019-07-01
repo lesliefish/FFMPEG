@@ -79,9 +79,6 @@
     <ClCompile Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.cpp">
       <Filter>Source Files\players\FFmpegQtPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="Source Files\tests\readVideoFromFile.h">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FFMPEG.qrc">
@@ -114,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h">
       <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Files\tests\ReadVideoFromFile.h">
+      <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
