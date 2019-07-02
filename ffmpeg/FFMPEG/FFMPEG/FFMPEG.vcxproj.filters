@@ -120,5 +120,8 @@
     <ClInclude Include="Source Files\tests\PlayVideoUseSDL.h">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="Source Files\tests\PlaySoundUseSDL.h">
+      <Filter>Source Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
