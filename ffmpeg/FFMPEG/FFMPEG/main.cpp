@@ -7,9 +7,10 @@
 #include "players/FFmpegAudioPlayer/FFmpegAudioPlayer.h"
 #include "players/FFmpegQtPlayer/FFmpegQtPlayer.h"
 #include "sdl/SdlImageViewer.h"
+#include "tests/PlayVideoUseSDL.h"
 
 using namespace sdl2;
-int main2222(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     //QApplication a(argc, argv);
 
@@ -25,8 +26,10 @@ int main2222(int argc, char *argv[])
     ////SdlImageViewer viewer;
     ////viewer.displayImage("bmpfile.bmp");
     //return 0;
-    FFmpegAudioPlayer ffmpegAudioPlayer;
-    ffmpegAudioPlayer.play("Sleep Away.mp3");
+    /*FFmpegAudioPlayer ffmpegAudioPlayer;
+    ffmpegAudioPlayer.play("Sleep Away.mp3");*/
+
+    PlayVideoUseSDl2::test();
 
     //return a.exec();
 

@@ -54,7 +54,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Source Files\module\FFmpegBasic.cpp">
       <Filter>Source Files\module</Filter>
     </ClCompile>
@@ -78,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="Source Files\players\FFmpegQtPlayer\FFmpegQtPlayer.cpp">
       <Filter>Source Files\players\FFmpegQtPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,10 +114,10 @@
     <ClInclude Include="Source Files\players\FFmpegAudioPlayer\FFmpegAudioPlayer.h">
       <Filter>Source Files\players\FFmpegAudioPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="Source Files\tests\PlayVideoUseSDL.cpp">
+    <ClInclude Include="Source Files\tests\ReadVideoFromFile.cpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
-    <ClInclude Include="Source Files\tests\ReadVideoFromFile.cpp">
+    <ClInclude Include="Source Files\tests\PlayVideoUseSDL.h">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>
