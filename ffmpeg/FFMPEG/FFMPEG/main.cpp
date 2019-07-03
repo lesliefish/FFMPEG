@@ -8,9 +8,10 @@
 #include "players/FFmpegQtPlayer/FFmpegQtPlayer.h"
 #include "sdl/SdlImageViewer.h"
 #include "tests/PlayVideoUseSDL.h"
+#include "tests/PlaySoundUseSDL.h"
 
 using namespace sdl2;
-int main(int argc, char *argv[])
+int main33(int argc, char *argv[])
 {
     //QApplication a(argc, argv);
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
     /*FFmpegAudioPlayer ffmpegAudioPlayer;
     ffmpegAudioPlayer.play("Sleep Away.mp3");*/
 
-    PlayVideoUseSDl2::test();
+    //PlayVideoUseSDl2::test();
 
     //return a.exec();
 

@@ -38,7 +38,7 @@ public:
         AVCodecContext  *pCodecCtx = NULL;
         AVCodec         *pCodec = NULL;
         AVFrame         *pFrame = NULL;
-        AVFrame         *pFrameYUV = NULL;
+        AVFrame         *pFrameRGB = NULL;
         AVPacket        packet;
         struct SwsContext *sws_ctx = NULL;
 
@@ -54,7 +54,7 @@ public:
             exit(1);
         }
 
-        const char* pFilePath = "test.mp4";
+        const char* pFilePath = "Wildlife.wmv";
         // 打开视频文件
         if (avformat_open_input(&pFormatCtx, pFilePath, NULL, NULL) != 0)
             return -1; // 打开失败
@@ -97,11 +97,11 @@ public:
         // 申请视频帧数据
         pFrame = av_frame_alloc();
         // 复制帧数据
-        pFrameYUV = av_frame_alloc();
+        pFrameRGB = av_frame_alloc();
 
         //播放窗口创建
         playerWindow = SDL_CreateWindow("SDL 2.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            pCodecCtx->width, pCodecCtx->height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+            pCodecCtx->width, pCodecCtx->height, SDL_WINDOW_OPENGL);
         if (!playerWindow)
         {
             fprintf(stderr, "SDL: create window falied.\n");
@@ -117,16 +117,16 @@ public:
         }
 
         // 纹理
-        sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_YV12, SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
+        sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_ARGB32, SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
         if (!sdlTexture)
         {
             fprintf(stderr, "SDL: could not create texture - exiting: \n");
             return false;
         }
 
-        int numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1);
+        int numBytes = av_image_get_buffer_size(AV_PIX_FMT_ARGB, pCodecCtx->width, pCodecCtx->height, 1);
         shared_ptr<uint8_t*> buffer = make_shared<uint8_t*>(new uint8_t[numBytes]);
-        av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, *buffer.get(), AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1);
+        av_image_fill_arrays(pFrameRGB->data, pFrameRGB->linesize, *buffer.get(), AV_PIX_FMT_ARGB, pCodecCtx->width, pCodecCtx->height, 1);
 
         // 是否读数据完毕
         bool isReadOver{ false };
@@ -178,11 +178,11 @@ public:
 
                         // 初始化SWS 
                         sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height,
-                            pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC,
+                            pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_ARGB, SWS_BICUBIC,
                             nullptr, nullptr, nullptr);
                         // 将帧数据转为播放窗口需要的大小
                         sws_scale(sws_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0,
-                            pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
+                            pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
                         // 释放av_read_frame申请的packet
                         sws_freeContext(sws_ctx);
 
@@ -190,7 +190,7 @@ public:
                         rect.y = 0;
                         rect.w = pCodecCtx->width;
                         rect.h = pCodecCtx->height;
-                        SDL_UpdateTexture(sdlTexture, &rect, pFrameYUV->data[0], pFrameYUV->linesize[0]);
+                        SDL_UpdateTexture(sdlTexture, &rect, pFrameRGB->data[0], pFrameRGB->linesize[0]);
                         SDL_RenderClear(sdlRenderer);
                         SDL_RenderCopy(sdlRenderer, sdlTexture, &rect, &rect);
                         SDL_RenderPresent(sdlRenderer);
@@ -219,7 +219,7 @@ public:
 
         // 释放pFrame
         av_frame_free(&pFrame);
-        av_frame_free(&pFrameYUV);
+        av_frame_free(&pFrameRGB);
 
         // 关闭解码器
         avcodec_close(pCodecCtx);
